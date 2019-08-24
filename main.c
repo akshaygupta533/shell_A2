@@ -88,7 +88,7 @@ int main(){
             else if(strcmp("echo",tokens[0])==0){
                 echofunc(tokens);
             }
-            else if(strcmp("ls",tokens[0])==0){
+            else if(strcmp("ls",tokens[0])==0 && strcmp(tokens[tno-1],"&")!=0){
                 strcpy(dir_before_ls,cwd);
                 ls(tokens);
             }
