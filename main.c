@@ -17,10 +17,14 @@
 #include "header.h"
 
 void ctrl_c(int status){
+    if(globalPid!=0)
+        kill(globalPid,9);
+    write(STDOUT_FILENO,"\n",1);
     return;
 }
 
 int main(){
+    globalPid=0;
     char host[100];
     gethostname(host,100);
     char command[300];
@@ -79,7 +83,8 @@ int main(){
             if (strcmp("cd",tokens[0])==0){
                 changedir(tokens,reldir);
             }
-            else if (strcmp("exit",tokens[0])==0){
+            else if (strcmp("quit",tokens[0])==0){
+                overkill();
                 return 0;
             }
             else if(strcmp("pwd",tokens[0])==0){
@@ -95,8 +100,17 @@ int main(){
             else if(strcmp("pinfo",tokens[0])==0){
                 pinfo(tokens);
             }
+            else if(strcmp("jobs",tokens[0])==0){
+                jobs(tokens);
+            }
             else if(strcmp("history",tokens[0])==0){
                 historyfunc(tokens);
+            }
+            else if(strcmp("kjob",tokens[0])==0){
+                kjob(tokens);
+            }
+            else if(strcmp("overkill",tokens[0])==0){
+                overkill();
             }
             else{
                 if(strcmp(tokens[tno-1],"&")==0){

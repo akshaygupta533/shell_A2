@@ -33,6 +33,31 @@ char** history_commands;
 void historyfunc(char **tokens);
 void exec(char ** arg,int bg_flag);
 void exitprocess(int signum);
+void jobs(char ** arg);
+void kjob(char ** arg);
+pid_t globalPid;
+char globalProcessName[1024];
+int globalProcessFlag;
+void generateoj();
+void overkill();
 
+typedef struct pro{
+	int index;
+	char str[1024];
+	int status;
+	time_t init;
+}proc_names;
+
+proc_names process_names[40000];
+
+typedef struct jobs{
+	int status;
+	char str[1024];
+	pid_t pid;
+	int time;
+}output_jobs;
+
+output_jobs oj[1024];
+int oj_count;
 
 #endif

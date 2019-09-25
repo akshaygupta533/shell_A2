@@ -10,7 +10,11 @@ main: \
 			pinfo.o	\
 			historyfunc.o \
 			exec.o \
-			exitprocess.o
+			exitprocess.o \
+			jobs.o \
+			kjob.o \
+			generateoj.o \
+			overkill.o
 	$(CC) -g -o main $^
 
 clean:
@@ -45,6 +49,18 @@ historyfunc.o: header.h historyfunc.c
 
 exec.o: header.h exec.c
 	$(CC) -g -c exec.c
+
+jobs.o: header.h jobs.c
+	$(CC) -g -c jobs.c
+
+kjob.o: header.h kjob.c
+	$(CC) -g -c kjob.c
+
+generateoj.o: header.h generateoj.c
+	$(CC) -g -c generateoj.c
+
+overkill.o: header.h overkill.c
+	$(CC) -g -c overkill.c
 
 exitprocess.o: header.h exitprocess.c
 	$(CC) -g -c exitprocess.c
