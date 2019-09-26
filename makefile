@@ -20,7 +20,13 @@ main: \
 			fg.o \
 			bg.o \
 			ctrl_c.o \
-			handle.o
+			handle.o \
+			redirect.o \
+			redirect2.o \
+			checkPiping.o \
+			checkRedirect.o \
+			handlepipesandredirection.o \
+			handlepipes.o
 	$(CC) -g -o main $^
 
 clean:
@@ -88,6 +94,25 @@ setenv.o: header.h setenv.c
 
 unsetenv.o: header.h unsetenv.c
 	$(CC) -g -c unsetenv.c
+
+redirect.o: header.h redirect.c
+	$(CC) -g -c redirect.c
+
+checkRedirect.o: header.h checkRedirect.c
+	$(CC) -g -c checkRedirect.c
+
+checkPiping.o: header.h checkPiping.c
+	$(CC) -g -c checkPiping.c
+
+redirect2.o: header.h redirect2.c
+	$(CC) -g -c redirect2.c
+
+handlepipesandredirection.o: header.h handlepipesandredirection.c
+	$(CC) -g -c handlepipesandredirection.c
+
+handlepipes.o: header.h handlepipes.c
+	$(CC) -g -c handlepipes.c
+
 
 main.o: header.h main.c
 	$(CC) -g -c main.c

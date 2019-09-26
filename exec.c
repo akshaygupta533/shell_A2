@@ -9,26 +9,26 @@ void exec(char ** arg,int bg_flag)
     globalProcessFlag=0;
 	int i,background=bg_flag;
     int red=0,piping=0;
-    // red=checkRedirect(arg);
-    // piping=checkPiping(arg);
+    red=checkRedirect(arg);
+    piping=checkPiping(arg);
 
-    // if(piping && red)
-    // {
-    //     handlePipesandRedirection(arg);
-    //     return;
-    // }
+    if(piping && red)
+    {
+        handlePipesandRedirection(arg);
+        return;
+    }
 
-    // if(piping)
-    // {
-    //     handlePipes(arg);
-    //     return;
-    // }
+    if(piping)
+    {
+        handlePipes(arg);
+        return;
+    }
 
-    // if(red)
-    // {
-    //     redirect(arg);
-    //     return;
-    // }
+    if(red)
+    {
+        redirect(arg);
+        return;
+    }
 
 	pid_t pid, wpid;
     int state;

@@ -47,6 +47,12 @@ void bg(char** tokens);
 int parent_flag;
 void ctrl_c(int status);
 void handle(int sig);
+void redirect(char ** arg);
+void redirect2(char ** arg);
+void handlePipesandRedirection(char** arg);
+void handlePipes(char** arg);
+int checkRedirect(char ** arg);
+int checkPiping(char ** arg);
 
 typedef struct pro{
 	int index;
