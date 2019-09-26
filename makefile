@@ -17,7 +17,10 @@ main: \
 			overkill.o \
 			setenv.o \
 			unsetenv.o \
-			fg.o
+			fg.o \
+			bg.o \
+			ctrl_c.o \
+			handle.o
 	$(CC) -g -o main $^
 
 clean:
@@ -28,6 +31,12 @@ commandtokenize.o: header.h commandtokenize.c
 
 changedir.o: header.h changedir.c
 	$(CC) -g -c changedir.c
+
+ctrl_c.o: header.h ctrl_c.c
+	$(CC) -g -c ctrl_c.c
+
+handle.o: header.h handle.c
+	$(CC) -g -c handle.c
 
 getreldir.o: header.h getreldir.c
 	$(CC) -g -c getreldir.c
@@ -43,6 +52,9 @@ ls.o: header.h ls.c
 
 fg.o: header.h fg.c
 	$(CC) -g -c fg.c
+
+bg.o: header.h bg.c
+	$(CC) -g -c bg.c
 
 print_details.o: header.h print_details.c
 	$(CC) -g -c print_details.c

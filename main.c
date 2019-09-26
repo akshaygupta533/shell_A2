@@ -17,6 +17,7 @@
 #include "header.h"
 
 
+
 int main(){
     signal(SIGINT,SIG_IGN);
     signal(SIGTSTP,SIG_IGN);
@@ -114,6 +115,10 @@ int main(){
             else if(strcmp("fg",tokens[0])==0){
                 fg(tokens);
             }
+            else if(strcmp("bg",tokens[0])==0){
+                bg(tokens);
+            }
+
 
             else{
                 if(strcmp(tokens[tno-1],"&")==0){

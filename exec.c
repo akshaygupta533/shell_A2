@@ -2,31 +2,6 @@
 
 int fl;
 
-void ctrl_c(int status){
-    if(globalPid!=0){
-        kill(globalPid,9);
-        strcpy(process_names[globalPid].str,globalProcessName);
-        process_names[globalPid].init = time(NULL);
-        process_names[globalPid].status = 0;
-    }
-    globalPid=0;
-    write(STDIN_FILENO,"\n",1);
-    return;
-}
-
-
-void handle(int sig)
-{
-    if(globalPid!=0){
-        kill(globalPid,SIGSTOP);
-        strcpy(process_names[globalPid].str,globalProcessName);
-        process_names[globalPid].init = time(NULL);
-        process_names[globalPid].status = 2;
-    }
-    globalPid=0;
-    return;
-}
-
 
 
 void exec(char ** arg,int bg_flag)
@@ -67,10 +42,6 @@ void exec(char ** arg,int bg_flag)
     }
     else if(pid==0) 
     {
-        if(background==1){
-            signal(SIGINT,SIG_IGN);
-            signal(SIGTSTP,SIG_IGN);
-        }
 
     	int x = execvp(arg[0], arg);
         if(x < 0)
@@ -81,12 +52,13 @@ void exec(char ** arg,int bg_flag)
         exit(0);
     }
     else{
-        // signal(SIGINT,SIG_IGN);
+        signal(SIGINT,SIG_IGN);
         
 
         strcpy(globalProcessName,arg[0]);
 
         if(background==-1 ){
+            signal(SIGCHLD, SIG_IGN);
             signal(SIGINT,ctrl_c);
             signal(SIGTSTP,handle);
             globalPid = pid;
@@ -110,4 +82,8 @@ void exec(char ** arg,int bg_flag)
         }
     }
     // printf("%s\n", process_names[pid].str);
+    signal(SIGINT,SIG_IGN);
+    signal(SIGTSTP,SIG_IGN);
+    signal(SIGCHLD,SIG_DFL);
+
 }

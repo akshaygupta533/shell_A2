@@ -43,7 +43,10 @@ void overkill();
 void cmd_setenv(char **tokens);
 void cmd_unsetenv(char **tokens);
 void fg(char** tokens);
-
+void bg(char** tokens);
+int parent_flag;
+void ctrl_c(int status);
+void handle(int sig);
 
 typedef struct pro{
 	int index;

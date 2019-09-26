@@ -13,18 +13,23 @@ void kjob(char ** arg)
 	int signal = atoi(arg[2]);
 	generateoj();
 	pid_t pid;
+	pid = oj[job-1].pid;
     if(job<1||job>oj_count){
-		printf("Kill %d: Process not found\n", pid);
+		printf("Kill %d: Process not found\n", oj[job-1].pid);
         return;
     }
 	if(oj[job-1].pid != 0)
 	{
-		if(kill(oj[job-1].pid,signal)<0)
-			printf("Kill %d: Process not found\n", pid);
-		else if (signal == 9)
+		if(signal==20){
+			signal=19;
+		}
+		// printf("%d %d",pid,signal);
+		kill(pid,signal);
+		if (signal == 9)
 			process_names[pid].status=0;
-		else if( signal>=17 && signal<=24 && signal!=21 && signal!=22)
-		process_names[pid].status=2	;
+		else if( signal>=17 && signal<=24 && signal!=21 && signal!=22){
+			process_names[pid].status=2;
+		}
 	}
 	else
 	{
