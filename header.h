@@ -40,6 +40,10 @@ char globalProcessName[1024];
 int globalProcessFlag;
 void generateoj();
 void overkill();
+void cmd_setenv(char **tokens);
+void cmd_unsetenv(char **tokens);
+void fg(char** tokens);
+
 
 typedef struct pro{
 	int index;

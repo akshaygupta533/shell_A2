@@ -16,14 +16,10 @@
 #include <readline/history.h>
 #include "header.h"
 
-void ctrl_c(int status){
-    if(globalPid!=0)
-        kill(globalPid,9);
-    write(STDOUT_FILENO,"\n",1);
-    return;
-}
 
 int main(){
+    signal(SIGINT,SIG_IGN);
+    signal(SIGTSTP,SIG_IGN);
     globalPid=0;
     char host[100];
     gethostname(host,100);
@@ -40,10 +36,7 @@ int main(){
     {
         history_commands[i] = NULL;
     }
-    int hno;
-    signal(SIGINT,ctrl_c);
-    
-    
+    int hno;        
     while(1){
         start:
         getcwd(cwd,sizeof(cwd));
@@ -112,6 +105,16 @@ int main(){
             else if(strcmp("overkill",tokens[0])==0){
                 overkill();
             }
+            else if(strcmp("setenv",tokens[0])==0){
+                cmd_setenv(tokens);
+            }
+            else if(strcmp("unsetenv",tokens[0])==0){
+                cmd_unsetenv(tokens);
+            }
+            else if(strcmp("fg",tokens[0])==0){
+                fg(tokens);
+            }
+
             else{
                 if(strcmp(tokens[tno-1],"&")==0){
                     tokens[--tno]=NULL;

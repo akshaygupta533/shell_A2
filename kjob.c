@@ -19,15 +19,14 @@ void kjob(char ** arg)
     }
 	if(oj[job-1].pid != 0)
 	{
-		pid = oj[job-1].pid;
-		int check = kill(pid,signal);
-		if(check<0)
-		printf("Kill %d: Process not found\n", pid);
-		if(check>=0 && signal == 9)
-		process_names[pid].status=0;
-		if(check>=0 && (signal == 17 ||signal == 18 ||signal == 19 ||signal == 20 ||signal == 23 ||signal == 24))
+		if(kill(oj[job-1].pid,signal)<0)
+			printf("Kill %d: Process not found\n", pid);
+		else if (signal == 9)
+			process_names[pid].status=0;
+		else if( signal>=17 && signal<=24 && signal!=21 && signal!=22)
 		process_names[pid].status=2	;
-	}else
+	}
+	else
 	{
 		perror("Job not found");
 	}	

@@ -14,7 +14,10 @@ main: \
 			jobs.o \
 			kjob.o \
 			generateoj.o \
-			overkill.o
+			overkill.o \
+			setenv.o \
+			unsetenv.o \
+			fg.o
 	$(CC) -g -o main $^
 
 clean:
@@ -37,6 +40,9 @@ echofunc.o: header.h echofunc.c
 
 ls.o: header.h ls.c
 	$(CC) -g -c ls.c
+
+fg.o: header.h fg.c
+	$(CC) -g -c fg.c
 
 print_details.o: header.h print_details.c
 	$(CC) -g -c print_details.c
@@ -64,6 +70,12 @@ overkill.o: header.h overkill.c
 
 exitprocess.o: header.h exitprocess.c
 	$(CC) -g -c exitprocess.c
+
+setenv.o: header.h setenv.c
+	$(CC) -g -c setenv.c
+
+unsetenv.o: header.h unsetenv.c
+	$(CC) -g -c unsetenv.c
 
 main.o: header.h main.c
 	$(CC) -g -c main.c
