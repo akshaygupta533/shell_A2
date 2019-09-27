@@ -73,49 +73,52 @@ int main(){
             tno=0;
             while(tokens[tno]!=NULL)tno++;
             if(tokens==NULL)continue;
-      
-            if (strcmp("cd",tokens[0])==0){
+            int red=0,piping=0;
+            red=checkRedirect(tokens);
+            piping=checkPiping(tokens);
+
+            if (strcmp("cd",tokens[0])==0 && piping==0 && red==0){
                 changedir(tokens,reldir);
             }
-            else if (strcmp("quit",tokens[0])==0){
+            else if (strcmp("quit",tokens[0])==0 && piping==0 && red==0){
                 overkill();
                 return 0;
             }
-            else if(strcmp("pwd",tokens[0])==0){
+            else if(strcmp("pwd",tokens[0])==0 && piping==0 && red==0){
                 printf("%s\n",reldir);
             }
-            else if(strcmp("echo",tokens[0])==0){
+            else if(strcmp("echo",tokens[0])==0 && piping==0 && red==0){
                 echofunc(tokens);
             }
-            else if(strcmp("ls",tokens[0])==0 && strcmp(tokens[tno-1],"&")!=0){
+            else if(strcmp("ls",tokens[0])==0 && strcmp(tokens[tno-1],"&")!=0 && piping==0 && red==0){
                 strcpy(dir_before_ls,cwd);
                 ls(tokens);
             }
-            else if(strcmp("pinfo",tokens[0])==0){
+            else if(strcmp("pinfo",tokens[0])==0 && piping==0 && red==0){
                 pinfo(tokens);
             }
-            else if(strcmp("jobs",tokens[0])==0){
+            else if(strcmp("jobs",tokens[0])==0 && piping==0 && red==0){
                 jobs(tokens);
             }
-            else if(strcmp("history",tokens[0])==0){
+            else if(strcmp("history",tokens[0])==0 && piping==0 && red==0){
                 historyfunc(tokens);
             }
-            else if(strcmp("kjob",tokens[0])==0){
+            else if(strcmp("kjob",tokens[0])==0 && piping==0 && red==0){
                 kjob(tokens);
             }
-            else if(strcmp("overkill",tokens[0])==0){
+            else if(strcmp("overkill",tokens[0])==0 && piping==0 && red==0){
                 overkill();
             }
-            else if(strcmp("setenv",tokens[0])==0){
+            else if(strcmp("setenv",tokens[0])==0 && piping==0 && red==0){
                 cmd_setenv(tokens);
             }
-            else if(strcmp("unsetenv",tokens[0])==0){
+            else if(strcmp("unsetenv",tokens[0])==0 && piping==0 && red==0){
                 cmd_unsetenv(tokens);
             }
-            else if(strcmp("fg",tokens[0])==0){
+            else if(strcmp("fg",tokens[0])==0 && piping==0 && red==0){
                 fg(tokens);
             }
-            else if(strcmp("bg",tokens[0])==0){
+            else if(strcmp("bg",tokens[0])==0 && piping==0 && red==0){
                 bg(tokens);
             }
 

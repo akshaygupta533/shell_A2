@@ -1,30 +1,24 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <signal.h>
-#include <string.h>
-#include <dirent.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <pwd.h>
-#include <grp.h>
-#include <time.h>
-#include <fcntl.h>
+
 #include "header.h"
 
 void redirect(char ** arg)
 {
-	char *input,*output,*command;
+	char *input;
 	input = (char *) malloc(sizeof(char)*1024);
+	char* output;
 	output = (char *) malloc(sizeof(char)*1024);
+	char* command;
 	command = (char *) malloc(sizeof(char)*1024);
 
-	int i,j,inp=0,out=0,Spout=0;
+	int i,j;
+	int inp=0;
+	int out=0;
+	int Spout=0;
 	pid_t pid = fork();
 	if(pid==0)
 	{
-		for(i=0;arg[i]!=NULL;i++)
+		i=0;
+		while(arg[i]!=NULL)
 		{
 			if(arg[i] != NULL && strcmp(arg[i],"<")==0)
 			{
@@ -32,25 +26,25 @@ void redirect(char ** arg)
 				arg[i] =  NULL;
 				inp=1;
 			}
-			if(arg[i] != NULL && strcmp(arg[i],">")==0)
+			else if(arg[i] != NULL && strcmp(arg[i],">")==0)
 			{
 				strcpy(output,arg[i+1]);
 				arg[i] =  NULL;
 				out=1;
 			}
-			if(arg[i] != NULL && strcmp(arg[i],">>")==0)
+			else if(arg[i] != NULL && strcmp(arg[i],">>")==0)
 			{
 				strcpy(output,arg[i+1]);
 				arg[i] =  NULL;
 				out=1;
 				Spout=1;
 			}
+			i++;
 		}
 
-		if(!inp==0)
+		if(inp)
 		{
-			int fd;
-			fd=open(input,O_RDONLY,0);
+			int fd = open(input,O_RDONLY,0);
 			if (fd<0)
 			{
 				perror("Could not open input file.");
@@ -61,28 +55,23 @@ void redirect(char ** arg)
 			}
 		}
 
-		if (!out==0)
+		if (out)
 		{
 			struct stat buffer;
+			int fd;
 			if(stat(output,&buffer)!=0)
 			{
-				int fd;
 				fd = creat(output,0644);
-				if (fd<0)
-				{
-					perror("Could not create output file");
-				}else
-				{
-					dup2(fd,1);
-					close(fd);	
-				}
 			}
-			else
-				if(Spout==0)
+			else if(!Spout)
 			{
-				int fd;	
 				fd = open(output, O_WRONLY);
-				if (fd<0)
+			}
+			else if(Spout)
+			{
+				fd = open(output,  O_WRONLY | O_APPEND | O_CREAT, (S_IROTH | S_IRGRP | S_IRUSR | S_IWUSR));	
+			}
+			if (fd<0)
 				{
 					perror("Could not open output file");
 				}else
@@ -90,21 +79,6 @@ void redirect(char ** arg)
 					dup2(fd,1);
 					close(fd);
 				}
-			}
-			else
-				if(Spout==1)
-			{
-				int fd;	
-				fd = open(output, O_WRONLY|O_APPEND);
-				if (fd<0)
-				{
-					perror("Could not open output file");
-				}else
-				{
-					dup2(fd,1);
-					close(fd);
-				}	
-			}
 		}
 		if (execvp(arg[0],arg) < 0)
 		{

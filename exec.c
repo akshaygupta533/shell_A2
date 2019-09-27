@@ -12,19 +12,17 @@ void exec(char ** arg,int bg_flag)
     red=checkRedirect(arg);
     piping=checkPiping(arg);
 
-    if(piping && red)
-    {
-        handlePipesandRedirection(arg);
-        return;
-    }
-
-    if(piping)
+    if(piping && !red)
     {
         handlePipes(arg);
         return;
     }
-
-    if(red)
+    else if(piping && red)
+    {
+        handlePipesandRedirection(arg);
+        return;
+    }
+    else if(red && !piping)
     {
         redirect(arg);
         return;

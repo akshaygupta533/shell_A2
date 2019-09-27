@@ -18,6 +18,7 @@
 #include <time.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <fcntl.h>
 
 char** commandtokenize(char * cmd);
 void changedir(char** tokens,char* cwd);
